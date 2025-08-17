@@ -191,13 +191,13 @@ impl Bot {
         // This would load various default plugins
     }
 
-    #[allow(clippy::future_not_send)]
+    #[allow(clippy::future_not_send, clippy::await_holding_lock)]
     async fn apply_plugins_pre(&self, message: Message) -> Result<Message> {
         let registry = self.plugin_registry.read();
         registry.apply_pre_processing(message).await
     }
 
-    #[allow(clippy::future_not_send)]
+    #[allow(clippy::future_not_send, clippy::await_holding_lock)]
     async fn apply_plugins_post(&self, response: Response) -> Result<Response> {
         let registry = self.plugin_registry.read();
         registry.apply_post_processing(response).await
@@ -369,19 +369,19 @@ mod tests {
         assert_eq!(metrics.requests_total(), 0);
         assert_eq!(metrics.success_total(), 0);
         assert_eq!(metrics.errors_total(), 0);
-        assert_eq!(metrics.success_rate(), 100.0);
+        assert!((metrics.success_rate() - 100.0).abs() < f64::EPSILON);
 
         metrics.increment_requests();
         metrics.increment_success();
         assert_eq!(metrics.requests_total(), 1);
         assert_eq!(metrics.success_total(), 1);
-        assert_eq!(metrics.success_rate(), 100.0);
+        assert!((metrics.success_rate() - 100.0).abs() < f64::EPSILON);
 
         metrics.increment_requests();
         metrics.increment_errors();
         assert_eq!(metrics.requests_total(), 2);
         assert_eq!(metrics.errors_total(), 1);
-        assert_eq!(metrics.success_rate(), 50.0);
+        assert!((metrics.success_rate() - 50.0).abs() < f64::EPSILON);
     }
 
     #[test]

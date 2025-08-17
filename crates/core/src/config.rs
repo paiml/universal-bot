@@ -23,7 +23,7 @@ pub struct BotConfig {
     pub temperature: f32,
 
     /// Maximum tokens to generate
-    #[validate(range(min = 1, max = 100000))]
+    #[validate(range(min = 1, max = 100_000))]
     pub max_tokens: usize,
 
     /// Request timeout
@@ -116,7 +116,7 @@ impl Default for BotConfig {
 #[derive(Debug, Clone, Serialize, Deserialize, Validate)]
 pub struct ContextConfig {
     /// Maximum context size in tokens
-    #[validate(range(min = 100, max = 100000))]
+    #[validate(range(min = 100, max = 100_000))]
     pub max_context_tokens: usize,
 
     /// Context TTL
@@ -152,14 +152,14 @@ pub enum StorageBackend {
         /// Redis connection URL
         url: String,
     },
-    /// PostgreSQL storage
+    /// `PostgreSQL` storage
     Postgres {
-        /// PostgreSQL connection URL
+        /// `PostgreSQL` connection URL
         url: String,
     },
-    /// SQLite storage
+    /// `SQLite` storage
     Sqlite {
-        /// SQLite database file path
+        /// `SQLite` database file path
         path: String,
     },
 }
