@@ -541,7 +541,7 @@ mod tests {
         registry.register(plugin).unwrap();
         assert!(registry.has_permission("echo", &Permission::All));
         assert!(registry.has_permission("echo", &Permission::ReadMessages));
-        
+
         // Non-existent plugins don't have permissions
         assert!(!registry.has_permission("nonexistent", &Permission::ReadMessages));
     }
