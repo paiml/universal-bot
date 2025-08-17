@@ -9,7 +9,6 @@ use aws_config::BehaviorVersion;
 use aws_sdk_bedrockruntime::{primitives::Blob, Client as BedrockClient};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use serde_yaml;
 use tracing::{debug, info, warn, Level};
 use tracing_subscriber::FmtSubscriber;
 use universal_bot_core::{Bot, BotConfig};
@@ -201,7 +200,7 @@ async fn main() -> Result<()> {
     info!("✅ Bot initialized with Claude Opus 4.1 configuration");
 
     // Test projects for todo generation
-    let test_projects = vec![
+    let test_projects = [
         "Build a REST API for user authentication with JWT tokens",
         "Create a machine learning pipeline for sentiment analysis",
         "Develop a mobile app for tracking fitness goals",

@@ -22,7 +22,7 @@ use universal_bot_core::{
         Capability, CapabilityType, Permission, Plugin, PluginConfig, PluginRequest,
         PluginResponse, RequestType,
     },
-    Bot, BotBuilder, BotConfig, Message,
+    BotBuilder, BotConfig, Message,
 };
 
 /// Weather plugin example
@@ -326,7 +326,9 @@ impl TranslationPlugin {
 struct WeatherInfo {
     temperature: i32,
     description: String,
+    #[allow(dead_code)]
     humidity: u32,
+    #[allow(dead_code)]
     wind_speed: f32,
 }
 

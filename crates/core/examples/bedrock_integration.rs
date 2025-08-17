@@ -27,7 +27,7 @@ async fn call_bedrock_claude(prompt: &str) -> Result<String> {
     let client = BedrockClient::new(&config);
 
     // Prepare the request for Claude Opus 4.1
-    let messages = vec![BedrockMessage::builder()
+    let messages = [BedrockMessage::builder()
         .role(User)
         .content(Text(prompt.to_string()))
         .build()
@@ -140,7 +140,7 @@ async fn main() -> Result<()> {
     info!("✅ Bot initialized with Bedrock configuration");
 
     // Test messages to send to Claude Opus 4.1
-    let test_prompts = vec![
+    let test_prompts = [
         "What is the capital of France? Give a one-sentence answer.",
         "Write a haiku about artificial intelligence.",
         "Explain quantum computing in simple terms (2-3 sentences max).",

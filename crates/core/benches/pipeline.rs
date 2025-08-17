@@ -8,10 +8,8 @@ use std::sync::Arc;
 use std::time::Duration;
 use tokio::runtime::Runtime;
 
-use parking_lot::RwLock;
 use universal_bot_core::{
-    context::ContextManager, message::MessageType, pipeline::PipelineContext, BotConfig, Context,
-    Message, MessagePipeline,
+    context::ContextManager, message::MessageType, BotConfig, Message, MessagePipeline,
 };
 
 /// Benchmark pipeline creation

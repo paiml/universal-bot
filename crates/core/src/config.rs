@@ -365,7 +365,7 @@ mod tests {
     fn test_default_config() {
         let config = BotConfig::default();
         assert_eq!(config.model, "anthropic.claude-opus-4-1");
-        assert_eq!(config.temperature, 0.1);
+        assert!((config.temperature - 0.1).abs() < f32::EPSILON);
         assert_eq!(config.max_tokens, 2048);
         assert!(config.validate().is_ok());
     }
@@ -382,7 +382,7 @@ mod tests {
         assert!(config.is_ok());
         let config = config.unwrap();
         assert_eq!(config.model, "anthropic.claude-sonnet-4");
-        assert_eq!(config.temperature, 0.5);
+        assert!((config.temperature - 0.5).abs() < f32::EPSILON);
         assert_eq!(config.max_tokens, 4096);
     }
 
@@ -395,11 +395,16 @@ mod tests {
 
     #[test]
     fn test_invalid_temperature() {
-        let mut config = BotConfig::default();
-        config.temperature = 1.5;
+        let config = BotConfig {
+            temperature: 1.5,
+            ..Default::default()
+        };
         assert!(config.validate().is_err());
 
-        config.temperature = -0.1;
+        let config = BotConfig {
+            temperature: -0.1,
+            ..Default::default()
+        };
         assert!(config.validate().is_err());
     }
 
@@ -413,7 +418,7 @@ mod tests {
         assert!(config.is_ok());
 
         let config = config.unwrap();
-        assert_eq!(config.temperature, 0.7);
+        assert!((config.temperature - 0.7).abs() < f32::EPSILON);
         assert_eq!(config.max_tokens, 4096);
     }
 
@@ -425,8 +430,10 @@ mod tests {
         proptest! {
             #[test]
             fn test_temperature_validation(temp in -10.0f32..10.0) {
-                let mut config = BotConfig::default();
-                config.temperature = temp;
+                let config = BotConfig {
+                    temperature: temp,
+                    ..Default::default()
+                };
 
                 let result = config.validate();
                 if (0.0..=1.0).contains(&temp) {
@@ -438,8 +445,10 @@ mod tests {
 
             #[test]
             fn test_max_tokens_validation(tokens in 0usize..200_000) {
-                let mut config = BotConfig::default();
-                config.max_tokens = tokens;
+                let config = BotConfig {
+                    max_tokens: tokens,
+                    ..Default::default()
+                };
 
                 let result = config.validate();
                 if tokens > 0 && tokens <= 100_000 {

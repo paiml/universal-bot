@@ -179,7 +179,7 @@ impl ContextMessage {
     }
 
     /// Estimate token count (rough approximation)
-    fn estimated_tokens(&self) -> usize {
+    const fn estimated_tokens(&self) -> usize {
         // Rough estimate: 1 token per 4 characters
         self.content.len() / 4
     }
@@ -282,6 +282,10 @@ impl ContextManager {
     }
 
     /// Get or create a context
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if context creation or retrieval fails
     #[instrument(skip(self))]
     pub async fn get_or_create(&self, id: &str) -> Result<Arc<RwLock<Context>>> {
         // Check cache first
@@ -324,6 +328,10 @@ impl ContextManager {
     }
 
     /// Update a context
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the update operation fails
     #[instrument(skip(self, context))]
     pub async fn update(&self, id: &str, context: Arc<RwLock<Context>>) -> Result<()> {
         // Trim to token limit
@@ -345,6 +353,10 @@ impl ContextManager {
     }
 
     /// Delete a context
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the deletion fails
     #[instrument(skip(self))]
     pub async fn delete(&self, id: &str) -> Result<()> {
         debug!("Deleting context {}", id);
@@ -354,6 +366,10 @@ impl ContextManager {
     }
 
     /// Clear expired contexts
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if clearing expired contexts fails
     #[instrument(skip(self))]
     pub async fn clear_expired(&self) -> Result<usize> {
         let mut removed = 0;

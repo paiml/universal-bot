@@ -3,6 +3,7 @@
 //! This module implements the message processing pipeline that handles
 //! sanitization, enrichment, routing, processing, and formatting of messages.
 
+use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -63,6 +64,10 @@ impl MessagePipeline {
     }
 
     /// Process a message through the pipeline
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if any stage in the pipeline fails
     #[instrument(skip(self, message, context))]
     pub async fn process(
         &self,
@@ -81,7 +86,7 @@ impl MessagePipeline {
         let mut pipeline_ctx = PipelineContext {
             message,
             context,
-            metadata: Default::default(),
+            metadata: HashMap::default(),
         };
 
         // Process through stages
@@ -404,7 +409,7 @@ impl PipelineStage for ProcessStage {
             .unwrap_or("default");
 
         let response_content = match route {
-            "command" => self.process_command(&ctx)?,
+            "command" => self.process_command(&ctx),
             "system" => "System message received".to_string(),
             "error" => "Error processed".to_string(),
             "media" => format!("Received {} attachment(s)", ctx.message.attachments.len()),
@@ -422,14 +427,14 @@ impl PipelineStage for ProcessStage {
 
 impl ProcessStage {
     #[allow(clippy::unused_self)]
-    fn process_command(&self, ctx: &PipelineContext) -> Result<String> {
+    fn process_command(&self, ctx: &PipelineContext) -> String {
         let command = ctx
             .metadata
             .get("command")
             .and_then(|v| v.as_str())
             .unwrap_or("unknown");
 
-        Ok(format!("Executing command: {}", command))
+        format!("Executing command: {command}")
     }
 }
 

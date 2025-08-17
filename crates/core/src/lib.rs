@@ -21,14 +21,18 @@
 //! # }
 //! ```
 
-#![warn(
-    missing_docs,
-    rust_2018_idioms,
-    clippy::all,
-    clippy::pedantic,
-    clippy::nursery
+#![deny(missing_docs, rust_2018_idioms, clippy::all)]
+#![warn(clippy::pedantic, clippy::nursery)]
+#![allow(
+    clippy::module_name_repetitions,
+    clippy::must_use_candidate,
+    clippy::missing_const_for_fn,
+    clippy::missing_errors_doc,
+    clippy::struct_excessive_bools,
+    clippy::cast_precision_loss,
+    clippy::unnecessary_literal_bound,
+    clippy::significant_drop_in_scrutinee
 )]
-#![allow(clippy::module_name_repetitions, clippy::must_use_candidate)]
 
 pub mod bot;
 pub mod config;
@@ -87,7 +91,7 @@ mod tests {
 
     #[test]
     fn test_version() {
-        assert!(!VERSION.is_empty());
+        assert_eq!(VERSION, "1.0.0");
         assert!(VERSION.contains('.'));
     }
 

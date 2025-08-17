@@ -115,7 +115,7 @@ impl Error {
 
     /// Check if this error is retryable
     #[must_use]
-    pub fn is_retryable(&self) -> bool {
+    pub const fn is_retryable(&self) -> bool {
         matches!(
             self,
             Self::Network(_) | Self::Timeout(_) | Self::RateLimit | Self::Provider(_)
@@ -124,7 +124,7 @@ impl Error {
 
     /// Check if this error is a client error
     #[must_use]
-    pub fn is_client_error(&self) -> bool {
+    pub const fn is_client_error(&self) -> bool {
         matches!(
             self,
             Self::InvalidInput(_)
@@ -137,7 +137,7 @@ impl Error {
 
     /// Check if this error is a server error
     #[must_use]
-    pub fn is_server_error(&self) -> bool {
+    pub const fn is_server_error(&self) -> bool {
         matches!(
             self,
             Self::Internal(_) | Self::Database(_) | Self::Cache(_) | Self::Initialization(_)
@@ -146,7 +146,7 @@ impl Error {
 
     /// Get the error code for API responses
     #[must_use]
-    pub fn error_code(&self) -> &'static str {
+    pub const fn error_code(&self) -> &'static str {
         match self {
             Self::Configuration(_) => "E001",
             Self::Validation(_) => "E002",
@@ -172,7 +172,7 @@ impl Error {
 
     /// Get the HTTP status code for this error
     #[must_use]
-    pub fn http_status_code(&self) -> u16 {
+    pub const fn http_status_code(&self) -> u16 {
         match self {
             Self::InvalidInput(_) | Self::Validation(_) => 400,
             Self::Authentication(_) => 401,
@@ -180,7 +180,6 @@ impl Error {
             Self::NotFound(_) => 404,
             Self::Timeout(_) => 408,
             Self::RateLimit => 429,
-            Self::Internal(_) | Self::Database(_) | Self::Cache(_) => 500,
             Self::Network(_) | Self::Provider(_) => 502,
             Self::Initialization(_) => 503,
             _ => 500,
@@ -194,9 +193,17 @@ pub type Result<T> = std::result::Result<T, Error>;
 /// Extension trait for converting errors with context
 pub trait ErrorContext<T> {
     /// Add context to an error
+    ///
+    /// # Errors
+    ///
+    /// Returns the original error with added context
     fn context(self, msg: impl fmt::Display) -> Result<T>;
 
     /// Add context with a closure
+    ///
+    /// # Errors
+    ///
+    /// Returns the original error with added context from the closure
     fn with_context<F>(self, f: F) -> Result<T>
     where
         F: FnOnce() -> String;
