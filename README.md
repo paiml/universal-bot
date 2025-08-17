@@ -253,29 +253,61 @@ cargo fmt --check
 cargo clippy -- -D warnings
 ```
 
-## 🚀 Example: Your First Universal Bot
+## 🚀 Quick Start Examples
+
+### Interactive CLI (Perfect for Courses!)
+Get started immediately with a Claude Code-like interface:
+
+```bash
+# Run the interactive CLI
+cargo run --bin universal-bot-cli
+
+# Or install globally
+cargo install universal-bot-core
+universal-bot-cli
+```
+
+Then ask anything:
+```
+🧠 You: What is Rust?
+🤖 Claude: Rust is a systems programming language...
+
+🧠 You: Write a Python function to sort a list
+🤖 Claude: Here's a Python function to sort a list...
+
+🧠 You: quit
+👋 Goodbye!
+```
+
+### Available Examples
+
+```bash
+# Interactive CLI (perfect for courses)
+cargo run --bin universal-bot-cli
+
+# Framework examples
+cargo run --example basic_bot
+cargo run --example interactive_cli  
+cargo run --example bedrock_integration
+cargo run --example step_by_step_demo
+```
+
+### Programmatic Usage
 
 ```rust
-use universal_bot::{BotCore, BedrockConfig, Message};
+use universal_bot_core::{Bot, BotConfig, Message};
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize the universal brain
-    let config = BedrockConfig::from_env()?;
-    let bot = BotCore::new(config).await?;
+async fn main() -> anyhow::Result<()> {
+    let config = BotConfig::builder()
+        .model("anthropic.claude-opus-4-1")
+        .temperature(0.1)
+        .build()?;
     
-    // Process a message (platform-agnostic)
-    let input = Message::text("Hello, what can you do?");
-    let response = bot.process(input).await?;
+    let bot = Bot::new(config).await?;
+    let response = bot.process(Message::text("Hello!")).await?;
     
     println!("🤖 {}", response.content);
-    
-    // This same bot core could connect to:
-    // - Discord (with adapter)
-    // - Slack (with adapter)
-    // - Web API (with adapter)
-    // - Any platform (with adapter)
-    
     Ok(())
 }
 ```

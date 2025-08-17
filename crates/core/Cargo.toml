@@ -35,6 +35,10 @@ html-escape = { workspace = true }
 # Optional dependencies
 proptest = { workspace = true, optional = true }
 
+# AWS dependencies for CLI
+aws-config = { workspace = true, optional = true }
+aws-sdk-bedrockruntime = { workspace = true, optional = true }
+
 # Local crates (will be implemented)
 # universal-bot-bedrock = { path = "../bedrock" }
 # universal-bot-pdmt = { path = "../pdmt" }
@@ -51,7 +55,12 @@ serde_yaml = { workspace = true }
 name = "pipeline"
 harness = false
 
+[[bin]]
+name = "universal-bot-cli"
+path = "src/bin/universal-bot-cli.rs"
+
 [features]
-default = []
+default = ["cli"]
+cli = ["dep:aws-config", "dep:aws-sdk-bedrockruntime"]
 property-testing = ["dep:proptest"]
 integration-tests = []
