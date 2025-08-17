@@ -301,17 +301,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ## 🤝 Community & Support
 
 ### Get Help
-- 💬 **Discord Server**: [Join our community](https://discord.gg/universal-bot)
-- 🐛 **Issues**: [Report bugs](https://github.com/yourusername/universal-bot-rust/issues)
-- 💡 **Discussions**: [Share ideas](https://github.com/yourusername/universal-bot-rust/discussions)
+- 🐛 **Issues**: [Report bugs](https://github.com/paiml/universal-bot/issues)
+- 💡 **Discussions**: [Share ideas](https://github.com/paiml/universal-bot/discussions)
+- 🌐 **Website**: [paiml.com](https://paiml.com)
 
 ### Contributing
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Office Hours
-- **Tuesdays**: 2 PM EST - Rust basics
-- **Thursdays**: 3 PM EST - AWS Bedrock deep dive
-- **Fridays**: 1 PM EST - Architecture review
+We welcome contributions! Feel free to submit issues and pull requests.
 
 ## 📈 Progress Tracking
 
@@ -379,6 +374,6 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 
 *The future isn't platform-specific. It's universally intelligent.*
 
-[Start Course](https://github.com/yourusername/universal-bot-rust) • [Watch Videos](https://youtube.com/universal-bot) • [Join Community](https://discord.gg/universal-bot)
+[Learn More](https://paiml.com) • [GitHub](https://github.com/paiml/universal-bot) • [Crates.io](https://crates.io/crates/universal-bot-core)
 
 </div>
