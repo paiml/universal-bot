@@ -15,7 +15,7 @@ use crate::error::Error;
 #[derive(Debug, Clone, Serialize, Deserialize, Validate)]
 pub struct BotConfig {
     /// AI model to use for generation
-    #[validate(custom = "validate_model")]
+    #[validate(custom(function = "validate_model"))]
     pub model: String,
 
     /// Temperature for generation (0.0 to 1.0)
