@@ -4,7 +4,13 @@ version.workspace = true
 authors.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Core functionality for Universal Bot AI automation framework"
+description = "Core functionality for Universal Bot AI automation framework with AWS Bedrock"
+homepage.workspace = true
+repository.workspace = true
+documentation = "https://docs.rs/universal-bot-core"
+readme = "../../README.md"
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 # Workspace dependencies

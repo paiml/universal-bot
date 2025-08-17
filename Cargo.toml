@@ -14,12 +14,12 @@ version = "1.0.0"
 authors = ["Universal Bot Team"]
 edition = "2021"
 license = "MIT"
-homepage = "https://universal-bot.io"
-repository = "https://github.com/universal-bot/universal-bot"
-documentation = "https://docs.universal-bot.io"
+homepage = "https://github.com/paiml/universal-bot"
+repository = "https://github.com/paiml/universal-bot"
+documentation = "https://docs.rs/universal-bot-core"
 readme = "README.md"
-keywords = ["ai", "automation", "bedrock", "aws", "bot"]
-categories = ["command-line-utilities", "web-programming"]
+keywords = ["ai", "automation", "bedrock", "aws", "claude"]
+categories = ["api-bindings", "asynchronous", "command-line-utilities", "web-programming"]
 
 [workspace.dependencies]
 # Async runtime

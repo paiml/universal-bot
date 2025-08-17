@@ -1,11 +1,13 @@
 # Universal Bot - Enterprise AI Automation Framework
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/universal-bot/actions)
-[![Coverage](https://img.shields.io/badge/coverage-85%25-green.svg)](https://github.com/universal-bot/coverage)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/universal-bot/releases)
+[![Crates.io](https://img.shields.io/crates/v/universal-bot-core.svg)](https://crates.io/crates/universal-bot-core)
+[![Documentation](https://docs.rs/universal-bot-core/badge.svg)](https://docs.rs/universal-bot-core)
+[![Build Status](https://github.com/paiml/universal-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/paiml/universal-bot/actions)
+[![Coverage](https://img.shields.io/badge/coverage-85%25-green.svg)](https://github.com/paiml/universal-bot/coverage)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/Rust-1.75+-orange.svg)](https://www.rust-lang.org/)
 [![AWS Bedrock](https://img.shields.io/badge/AWS_Bedrock-Production-yellow.svg)](https://aws.amazon.com/bedrock/)
+[![Downloads](https://img.shields.io/crates/d/universal-bot-core.svg)](https://crates.io/crates/universal-bot-core)
 
 > **Enterprise-grade AI automation framework** integrating AWS Bedrock, PDMT templating, and AssetGen content generation into a unified, production-ready platform.
 
@@ -104,11 +106,18 @@ universal-bot/
 - Docker (for containerized deployment)
 - GitHub account (for CI/CD)
 
-## 🚦 Quick Start
+## 📦 Installation
 
+### From crates.io
+```toml
+[dependencies]
+universal-bot-core = "1.0"
+```
+
+### From source
 ```bash
 # Clone the repository
-git clone https://github.com/universal-bot/universal-bot
+git clone https://github.com/paiml/universal-bot
 cd universal-bot
 
 # Install dependencies
