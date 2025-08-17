@@ -1,0 +1,15 @@
+```yaml
+todos:
+  - id: "todo_0_0"
+    content: "Set up hosting and domain, install CMS or static site generator"
+    priority: "high"
+    hours: 3
+  - id: "todo_0_1"
+    content: "Design homepage layout and create navigation menu structure"
+    priority: "medium"
+    hours: 4
+  - id: "todo_0_2"
+    content: "Write and publish first blog post with images"
+    priority: "low"
+    hours: 2
+```

@@ -18,8 +18,11 @@ use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
 
 use universal_bot_core::{
-    BotBuilder, BotConfig, Capability, CapabilityType, Message, Permission, Plugin,
-    PluginConfig, PluginRequest, PluginResponse, RequestType,
+    plugin::{
+        Capability, CapabilityType, Permission, Plugin, PluginConfig, PluginRequest,
+        PluginResponse, RequestType,
+    },
+    Bot, BotBuilder, BotConfig, Message,
 };
 
 /// Weather plugin example
@@ -72,7 +75,7 @@ impl Plugin for WeatherPlugin {
 
     async fn initialize(&mut self, config: PluginConfig) -> Result<()> {
         info!("Initializing Weather Plugin");
-        
+
         // Extract API key from configuration
         if let Some(key) = config.settings.get("api_key") {
             if let Some(key_str) = key.as_str() {
@@ -80,7 +83,7 @@ impl Plugin for WeatherPlugin {
                 info!("Weather API key configured");
             }
         }
-        
+
         Ok(())
     }
 
@@ -98,7 +101,9 @@ impl Plugin for WeatherPlugin {
 
     fn can_handle(&self, message: &Message) -> bool {
         let content = message.content.to_lowercase();
-        content.contains("weather") || content.contains("temperature") || content.contains("forecast")
+        content.contains("weather")
+            || content.contains("temperature")
+            || content.contains("forecast")
     }
 }
 
@@ -107,12 +112,12 @@ impl WeatherPlugin {
         if let Ok(message) = serde_json::from_value::<Message>(request.data) {
             let location = self.extract_location(&message.content);
             let weather_info = self.get_weather(&location).await?;
-            
+
             let response_message = Message::text(format!(
                 "🌤️ Weather for {}: {}°C, {}",
                 location, weather_info.temperature, weather_info.description
             ));
-            
+
             Ok(PluginResponse::success(
                 request.id,
                 serde_json::to_value(response_message)?,
@@ -127,7 +132,7 @@ impl WeatherPlugin {
             "command": "weather",
             "result": "Weather command executed successfully"
         });
-        
+
         Ok(PluginResponse::success(request.id, data))
     }
 
@@ -137,7 +142,7 @@ impl WeatherPlugin {
             "coordinates": {"lat": 40.7128, "lon": -74.0060},
             "location": "New York, NY"
         });
-        
+
         Ok(PluginResponse::success(request.id, data))
     }
 
@@ -157,7 +162,7 @@ impl WeatherPlugin {
     async fn get_weather(&self, location: &str) -> Result<WeatherInfo> {
         // Simulate API call (in practice, would call real weather API)
         tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
-        
+
         let weather = match location {
             "New York, NY" => WeatherInfo {
                 temperature: 22,
@@ -184,7 +189,7 @@ impl WeatherPlugin {
                 wind_speed: 0.0,
             },
         };
-        
+
         Ok(weather)
     }
 }
@@ -257,12 +262,10 @@ impl TranslationPlugin {
         if let Ok(message) = serde_json::from_value::<Message>(request.data) {
             let (text, target_lang) = self.parse_translation_request(&message.content);
             let translated = self.translate(&text, &target_lang).await?;
-            
-            let response_message = Message::text(format!(
-                "🔤 Translation to {}: {}",
-                target_lang, translated
-            ));
-            
+
+            let response_message =
+                Message::text(format!("🔤 Translation to {}: {}", target_lang, translated));
+
             Ok(PluginResponse::success(
                 request.id,
                 serde_json::to_value(response_message)?,
@@ -278,7 +281,7 @@ impl TranslationPlugin {
             "supported_languages": self.supported_languages,
             "result": "Translation tool invoked"
         });
-        
+
         Ok(PluginResponse::success(request.id, data))
     }
 
@@ -301,7 +304,7 @@ impl TranslationPlugin {
     async fn translate(&self, text: &str, target_lang: &str) -> Result<String> {
         // Simulate translation API call
         tokio::time::sleep(tokio::time::Duration::from_millis(200)).await;
-        
+
         let translated = match (text, target_lang) {
             ("hello", "es") => "hola",
             ("hello", "fr") => "bonjour",
@@ -313,7 +316,7 @@ impl TranslationPlugin {
             ("goodbye", "ja") => "さようなら",
             _ => "Translation not available",
         };
-        
+
         Ok(translated.to_string())
     }
 }
@@ -388,7 +391,7 @@ async fn main() -> Result<()> {
         match bot.process(message).await {
             Ok(response) => {
                 info!("✅ Response {}: {}", i + 1, response.content);
-                
+
                 if response.is_error() {
                     if let Some(error) = &response.error {
                         info!("⚠️ Response contains error: {}", error.message);
@@ -426,19 +429,19 @@ mod tests {
     async fn test_weather_plugin() {
         let mut plugin = WeatherPlugin::new();
         let config = PluginConfig::default();
-        
+
         plugin.initialize(config).await.unwrap();
-        
+
         let message = Message::text("What's the weather in New York?");
         assert!(plugin.can_handle(&message));
-        
+
         let request = PluginRequest {
             id: "test".to_string(),
             request_type: RequestType::ProcessMessage,
             data: serde_json::to_value(&message).unwrap(),
             metadata: HashMap::new(),
         };
-        
+
         let response = plugin.process(request).await.unwrap();
         assert!(response.success);
     }
@@ -446,14 +449,14 @@ mod tests {
     #[tokio::test]
     async fn test_translation_plugin() {
         let plugin = TranslationPlugin::new();
-        
+
         let message = Message::text("/translate es hello");
         assert!(plugin.can_handle(&message));
-        
+
         let (text, lang) = plugin.parse_translation_request(&message.content);
         assert_eq!(text, "hello");
         assert_eq!(lang, "es");
-        
+
         let translated = plugin.translate("hello", "es").await.unwrap();
         assert_eq!(translated, "hola");
     }
@@ -462,13 +465,13 @@ mod tests {
     fn test_plugin_capabilities() {
         let weather_plugin = WeatherPlugin::new();
         let capabilities = weather_plugin.capabilities();
-        
+
         assert_eq!(capabilities.len(), 2);
         assert_eq!(capabilities[0].name, "weather_query");
-        
+
         let translation_plugin = TranslationPlugin::new();
         let capabilities = translation_plugin.capabilities();
-        
+
         assert_eq!(capabilities.len(), 1);
         assert_eq!(capabilities[0].name, "text_translation");
     }

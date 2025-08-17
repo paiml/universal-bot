@@ -51,11 +51,11 @@ async fn main() -> Result<()> {
     // Process each message
     for (i, message) in messages.into_iter().enumerate() {
         info!("Processing message {}: {}", i + 1, message.content);
-        
+
         match bot.process(message).await {
             Ok(response) => {
                 info!("✅ Response {}: {}", i + 1, response.content);
-                
+
                 if let Some(usage) = &response.usage {
                     info!(
                         "📊 Tokens used - Input: {}, Output: {}, Total: {}, Cost: ${:.4}",
@@ -70,7 +70,7 @@ async fn main() -> Result<()> {
                 eprintln!("❌ Error processing message {}: {}", i + 1, e);
             }
         }
-        
+
         // Add a small delay between messages
         tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
     }
@@ -82,7 +82,7 @@ async fn main() -> Result<()> {
     info!("  Successful responses: {}", metrics.success_total());
     info!("  Error responses: {}", metrics.errors_total());
     info!("  Success rate: {:.2}%", metrics.success_rate());
-    
+
     if let Some(avg_time) = metrics.average_response_time() {
         info!("  Average response time: {:?}", avg_time);
     }
@@ -113,7 +113,10 @@ mod tests {
 
         // Test with a simple message
         let message = Message::text("Test message");
-        let response = bot.process(message).await.expect("Failed to process message");
+        let response = bot
+            .process(message)
+            .await
+            .expect("Failed to process message");
 
         // Verify response
         assert!(!response.content.is_empty());

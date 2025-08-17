@@ -340,6 +340,7 @@ impl BotConfigBuilder {
 fn validate_model(model: &str) -> Result<(), ValidationError> {
     const ALLOWED_MODELS: &[&str] = &[
         "anthropic.claude-opus-4-1",
+        "us.anthropic.claude-opus-4-1-20250805-v1:0", // Opus 4.1 inference profile
         "anthropic.claude-sonnet-4",
         "anthropic.claude-haiku",
         "meta.llama3-70b-instruct",

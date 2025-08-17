@@ -1,0 +1,102 @@
+todos:
+- id: todo_0_0
+  content: Set up project structure with Node.js/Express and initialize package.json with required dependencies (express, jsonwebtoken, bcrypt, dotenv)
+  status: pending
+  priority: high
+  estimated_hours: 2.0
+  dependencies: []
+  tags:
+  - setup
+  - backend
+  - initialization
+- id: todo_0_1
+  content: Configure database connection and create User schema/model with fields for username, email, password hash, and timestamps
+  status: pending
+  priority: high
+  estimated_hours: 3.0
+  dependencies:
+  - todo_0_0
+  tags:
+  - database
+  - schema
+  - backend
+- id: todo_0_2
+  content: Implement user registration endpoint (POST /api/auth/register) with input validation and password hashing
+  status: pending
+  priority: high
+  estimated_hours: 4.0
+  dependencies:
+  - todo_0_1
+  tags:
+  - api
+  - authentication
+  - endpoint
+- id: todo_0_3
+  content: Implement user login endpoint (POST /api/auth/login) with credential verification and JWT token generation
+  status: pending
+  priority: high
+  estimated_hours: 4.0
+  dependencies:
+  - todo_0_1
+  tags:
+  - api
+  - authentication
+  - jwt
+  - endpoint
+- id: todo_0_4
+  content: Create JWT middleware for protecting routes and verifying token validity on protected endpoints
+  status: pending
+  priority: high
+  estimated_hours: 3.0
+  dependencies:
+  - todo_0_3
+  tags:
+  - middleware
+  - jwt
+  - security
+- id: todo_0_5
+  content: Implement token refresh endpoint (POST /api/auth/refresh) for generating new access tokens using refresh tokens
+  status: pending
+  priority: medium
+  estimated_hours: 3.5
+  dependencies:
+  - todo_0_3
+  - todo_0_4
+  tags:
+  - api
+  - jwt
+  - endpoint
+  - security
+- id: todo_0_6
+  content: Add logout endpoint (POST /api/auth/logout) with token blacklisting or invalidation mechanism
+  status: pending
+  priority: medium
+  estimated_hours: 2.5
+  dependencies:
+  - todo_0_4
+  tags:
+  - api
+  - authentication
+  - endpoint
+  - security
+- id: todo_0_7
+  content: Write comprehensive API tests for all authentication endpoints using Jest or Mocha with test database
+  status: pending
+  priority: medium
+  estimated_hours: 5.0
+  dependencies:
+  - todo_0_2
+  - todo_0_3
+  - todo_0_5
+  - todo_0_6
+  tags:
+  - testing
+  - quality
+  - api
+metadata:
+  total_count: 8
+  generated_at: 2024-12-19T10:30:00Z
+  template_version: 1.0.0
+  granularity: high
+  project_name: Build a REST API for user authentication with JWT tokens
+  model_used: Claude Opus 4.1
