@@ -1,0 +1,48 @@
+[package]
+name = "universal-bot-core"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Core functionality for Universal Bot AI automation framework"
+
+[dependencies]
+# Workspace dependencies
+tokio = { workspace = true }
+async-trait = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+parking_lot = { workspace = true }
+dashmap = { workspace = true }
+futures = { workspace = true }
+validator = { workspace = true }
+moka = { workspace = true }
+humantime-serde = { workspace = true }
+html-escape = { workspace = true }
+
+# Optional dependencies
+proptest = { workspace = true, optional = true }
+
+# Local crates (will be implemented)
+# universal-bot-bedrock = { path = "../bedrock" }
+# universal-bot-pdmt = { path = "../pdmt" }
+
+[dev-dependencies]
+criterion = { workspace = true, features = ["html_reports", "async_tokio"] }
+mockall = { workspace = true }
+tokio-test = "0.4"
+
+[[bench]]
+name = "pipeline"
+harness = false
+
+[features]
+default = []
+property-testing = ["dep:proptest"]
+integration-tests = []

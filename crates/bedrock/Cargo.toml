@@ -1,0 +1,45 @@
+[package]
+name = "universal-bot-bedrock"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Production-ready AWS Bedrock client for Universal Bot"
+
+[dependencies]
+# Workspace dependencies
+tokio = { workspace = true }
+async-trait = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+parking_lot = { workspace = true }
+futures = { workspace = true }
+validator = { workspace = true }
+
+# AWS SDK
+aws-config = { workspace = true }
+aws-sdk-bedrockruntime = { workspace = true }
+
+# Additional dependencies
+backoff = { version = "0.4", features = ["futures", "tokio"] }
+url = "2.5"
+base64 = { workspace = true }
+bytes = { workspace = true }
+fastrand = { workspace = true }
+
+# Optional dependencies for testing/mocking
+mockall = { workspace = true, optional = true }
+
+[dev-dependencies]
+tokio-test = "0.4"
+wiremock = { workspace = true }
+
+[features]
+default = []
+mock-client = ["dep:mockall"]
+integration-tests = []
